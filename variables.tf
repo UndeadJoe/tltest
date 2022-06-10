@@ -21,14 +21,6 @@ variable "environment" {
   default     = "staging"
 }
 
-variable "network_id" {
-  description = "Network ID"
-}
-
-variable "subnet_id" {
-  description = "Subnet ID"
-}
-
 variable "external_IP" {
   description = "external IP address for loadbalancer"
   default     = "178.154.226.237"

@@ -3,21 +3,6 @@ resource "yandex_iam_service_account" "tltest" {
   description = "service account to manage VMs"
 }
 
-data "yandex_iam_policy" "admin" {
-  binding {
-    role = "admin"
-
-    members = [
-      "userAccount:foobar_user_id",
-    ]
-  }
-}
-
-resource "yandex_iam_service_account_iam_policy" "admin-account-iam" {
-  service_account_id = yandex_iam_service_account.tltest.id
-  policy_data        = data.yandex_iam_policy.admin.policy_data
-}
-
 resource "yandex_kms_symmetric_key" "tltest" {
   name              = "tltest-${var.environment}"
   default_algorithm = "AES_128"
@@ -31,7 +16,7 @@ resource "yandex_kubernetes_cluster" "tltest" {
   network_id = yandex_vpc_network.tltest.id
 
   master {
-    version = "1.17"
+    version = "1.20"
     zonal {
       zone      = yandex_vpc_subnet.tltest-a.zone
       subnet_id = yandex_vpc_subnet.tltest-a.id
@@ -49,8 +34,8 @@ resource "yandex_kubernetes_cluster" "tltest" {
     }
   }
 
-  service_account_id      = yandex_iam_service_account.tltest.id
-  node_service_account_id = yandex_iam_service_account.tltest.id
+  service_account_id      = "ajemhae1qr6b7ghhii2u"
+  node_service_account_id = "ajemhae1qr6b7ghhii2u"
 
   release_channel = "STABLE"
 
@@ -64,7 +49,7 @@ resource "yandex_kubernetes_node_group" "tltest" {
   cluster_id  = yandex_kubernetes_cluster.tltest.id
   name        = "tltest-${var.environment}"
   description = "Nodes for tltest cluster"
-  version     = "1.17"
+  version     = "1.20"
 
   instance_template {
     platform_id = "standard-v2"
@@ -79,13 +64,13 @@ resource "yandex_kubernetes_node_group" "tltest" {
     }
 
     resources {
-      memory = 16
-      cores  = 8
+      memory = 8
+      cores  = 4
     }
 
     boot_disk {
       type = "network-ssd"
-      size = 200
+      size = 50
     }
 
     scheduling_policy {
