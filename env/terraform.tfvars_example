@@ -1,0 +1,22 @@
+#
+# Rename this file to *.tfvars file and start terraform with it
+# terraform plan -var-file="env/staging.tfvars"
+#
+
+# Auth Token for Yandex Service
+token = ""
+
+# Yandex cloud id
+cloud_id = ""
+
+# Yandex cloud folder id
+folder_id = ""
+
+# Environment used in names (e.g. staging, production)
+environment = "" 
+
+# Password for Postgres database
+db_password = ""
+
+# Password for ClickHouse
+ch_password = ""
